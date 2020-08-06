@@ -1,0 +1,135 @@
+intents:
+  - greet {triggers: action_greet_user}
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - canthelp
+  - out_of_scope:
+    triggers: respond_out_of_scope
+    use_entities: []
+  - signup
+  - signin
+  - signout
+  - inform
+  - explain
+
+entities:
+  - name
+  - email
+  - mobile
+  - emp_id
+  - role
+slots:
+  name:
+    type: unfeaturized
+  mobile:
+    type: unfeaturized
+  email:
+    type: unfeaturized
+  emp_id:
+    type: unfeaturized
+  role:
+      type: categorical
+      values:
+      - admin
+      - employee
+  is_authenticated:
+        type: bool
+  requested_slot:
+    type: categorical
+    values:
+      - email
+      - name
+      - mobile
+      - role
+      - emp_id
+
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Vitwit."
+
+  utter_canthelp:
+  - text: I'm sorry I couldn't help you. If you have general questions about Vitwit,
+      please head to our official website(https://vitwit.com/), otherwise contact us at
+      [+91 63009 46153](mailto:contact@Vitwit.com) for anything else.
+  utter_ask_email:
+    - text: What is your email?
+  utter_ask_mobile:
+    - text: What is your phone number?
+    - text: What is your mobile number?
+    - text: Type in your mobile number?
+  utter_ask_role:
+    - Are you admin or employee?
+  utter_ask_emp_id:
+    - text: What is your employee ID starting with VW?
+    - text: Type in your employee ID starting with VW.
+  utter_ask_name:
+    - text: What is your name?
+    - text: May i know your name?
+    - text: Your good name please?
+    - text: Can I know your name?
+    - text: Could you please type in your name.
+  utter_ask_continue_signup:
+    - text: Do you want to continue the signup form?
+    - text: You still want to continue the signup form?
+    - text: Do you still want to continue the registration form?
+  utter_ask_continue_signin:
+    - text: Do you want to continue the signin form?
+    - text: You still want to continue the login form?
+    - text: Do you still want to continue the login form?
+  utter_can_do:
+    - text: Sure thing!
+    - text: Can do!
+    - text: You got it. 👍
+  utter_explain_email:
+    - text: Email is for sending you the updates regarding rules and regulations.
+  utter_explain_mobile:
+    - text: Mobile number is required to contact.
+  utter_explain_role:
+    - text: The role must be employee or admin.
+  utter_explain_emp_id:
+    - text: A unique employee ID starting with VW is given to each and every employee working at Vitwit.
+  utter_explain_name:
+    - text: How can we call you with out your name!!!!
+  utter_great:
+    - text: Great! 👍
+    - text: That's great! 🙌
+    - text: Awesome! 🎉
+    - text: Cool, let's do it 🚀
+  utter_thumbsup:
+    - text: 👍
+    - text: Okay.
+    - text: Got it.
+actions:
+  - action_greet_user
+  - action_explain_signup_form
+  - action_explain_signin_form
+  - respond_out_of_scope
+
+forms:
+  - signup_form
+  - signin_form
+  - signout_form
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
