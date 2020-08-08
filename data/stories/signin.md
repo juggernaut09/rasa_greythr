@@ -36,7 +36,7 @@
     - utter_canthelp
     - utter_ask_continue_signin
   * deny
-    - utter_great
+    - utter_thumbsup
     - action_deactivate_form
     - form{"name": null}
 
@@ -60,7 +60,7 @@
     - utter_canthelp
     - utter_ask_continue_signin
   * deny
-    - utter_great
+    - utter_thumbsup
     - action_deactivate_form
     - form{"name": null}
 
@@ -113,7 +113,7 @@
     - action_explain_signin_form
     - utter_ask_continue_signin
   * deny
-    - utter_great
+    - utter_thumbsup
     - action_deactivate_form
     - form{"name": null}
 
@@ -165,6 +165,6 @@
     - respond_out_of_scope
     - utter_ask_continue_signin
   * deny
-    - utter_great
+    - utter_thumbsup
     - action_deactivate_form
     - form{"name": null}
