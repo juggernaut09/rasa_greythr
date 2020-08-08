@@ -128,7 +128,6 @@ actions:
 forms:
   - signup_form
   - signin_form
-  - signout_form
 
 session_config:
   session_expiration_time: 60
