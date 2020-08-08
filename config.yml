@@ -11,16 +11,28 @@ pipeline:
     min_ngram: 1
     max_ngram: 4
   - name: DIETClassifier
-    epochs: 100
+    epochs: 200
+    ranking_length: 5
   - name: EntitySynonymMapper
   - name: ResponseSelector
+    retrieval_intent: out_of_scope
+    scale_loss: false
     epochs: 100
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
 policies:
-  - name: MemoizationPolicy
   - name: TEDPolicy
-    max_history: 5
-    epochs: 100
+    max_history: 10
+    epochs: 20
+    batch_size:
+    - 32
+    - 64
+  - max_history: 6
+    name: AugmentedMemoizationPolicy
+  - core_threshold: 0.3
+    name: TwoStageFallbackPolicy
+    nlu_threshold: 0.8
+    deny_suggestion_intent_name: "trigger_rephrase"
+  - name: FormPolicy
   - name: MappingPolicy

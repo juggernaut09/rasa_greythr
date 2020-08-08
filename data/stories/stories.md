@@ -52,3 +52,8 @@
     - respond_out_of_scope
   * goodbye
     - utter_goodbye
+
+## signout
+  * signout
+    - utter_thumbsup
+    - action_signout

@@ -1,0 +1,16 @@
+intent,button,entities
+affirm,Yes,
+bye,Bye!,
+canthelp,You can't help me.,
+signup,Hi iam here to signup.,
+signin,I want to signin.,
+inform,The email is {email}email,
+inform,mobile is {mobile}mobile,
+inform,{role}role,
+inform{name}name,
+inform{emp_id}emp_id,
+greet,"Say ""Hi!"" ",
+thank,Thanks!,
+out_of_scope/other,Out of scope question.,
+out_of_scope/non_english,I'm speaking a non-english language.,
+signout,I want to singout

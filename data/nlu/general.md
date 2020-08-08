@@ -600,3 +600,15 @@
 - what do you mean
 - what does that mean
 - how come?
+
+## intent:restart
+- yep you can restart
+- Please restart this chat/
+- ok restart please
+- please restart the bot
+- restart this conversation
+- i want to restart
+- why don't you restart????
+- hey, i said restart
+- restart session pls
+- restart ps
