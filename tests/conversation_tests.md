@@ -1,51 +1,59 @@
-#### This file contains tests to evaluate that your bot behaves as expected.
-#### If you want to learn more, please see the docs: https://rasa.com/docs/rasa/user-guide/testing-your-assistant/
-
-## happy path 1
-* greet: hello there!
-  - utter_greet
-* mood_great: amazing
+## happy path
+* greet: Hi
+  - action_greet_user
+* mood_great: I am fine
   - utter_happy
-
-## happy path 2
-* greet: hello there!
-  - utter_greet
-* mood_great: amazing
-  - utter_happy
-* goodbye: bye-bye!
-  - utter_goodbye
 
 ## sad path 1
-* greet: hello
-  - utter_greet
-* mood_unhappy: not good
+* greet: Hi
+  - action_greet_user
+* mood_unhappy: I am sad
   - utter_cheer_up
   - utter_did_that_help
-* affirm: yes
-  - utter_happy
+* affirm
+  - utter_great
 
 ## sad path 2
-* greet: hello
-  - utter_greet
-* mood_unhappy: not good
+* greet: Hi
+  - action_greet_user
+* mood_unhappy: I am sad
   - utter_cheer_up
   - utter_did_that_help
-* deny: not really
-  - utter_goodbye
-
-## sad path 3
-* greet: hi
-  - utter_greet
-* mood_unhappy: very terrible
-  - utter_cheer_up
-  - utter_did_that_help
-* deny: no
+* deny: No
+  - utter_thumbsup
   - utter_goodbye
 
 ## say goodbye
-* goodbye: bye-bye!
+* goodbye: Bye
   - utter_goodbye
 
 ## bot challenge
-* bot_challenge: are you a bot?
+* bot_challenge: Are you a bot?
   - utter_iamabot
+
+## greet + out_of_scope
+* greet: Hi
+  - action_greet_user
+* out_of_scope: Order me some pizza?
+  - respond_out_of_scope
+## just out_of_scope
+* out_of_scope: Order me some pizza?
+  - respond_out_of_scope
+
+## greet + out_of_scope + goodbye
+  * greet: Hi
+    - action_greet_user
+  * out_of_scope: Order me some pizza?
+    - respond_out_of_scope
+  * goodbye: Bye
+    - utter_goodbye
+## just out_of_scope + goodbye
+  * out_of_scope: Order me some pizza?
+    - respond_out_of_scope
+  * goodbye: Bye
+    - utter_goodbye
+
+## signout
+  * signout: I want to signout.
+    - utter_thumbsup
+    - action_signout

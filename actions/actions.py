@@ -83,12 +83,12 @@ class SignupForm(FormAction):
                      match = re.match("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", value)
                      if match:
                         # validation succeeded
-                        return value
+                        return {'mobile': value}
                      else:
-                        dispatcher.utter_message(template="Please check your mobile number you have typed")
+                        dispatcher.utter_message(text="Please check your mobile number you have typed")
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
-                        return None
+                        return {'mobile': None}
 
     def validate_email(self,
                      value: Text,
@@ -99,12 +99,12 @@ class SignupForm(FormAction):
                      match = re.match("[^@ \t\r\n]+@vitwit\.[^@ \t\r\n]+", value.lower())
                      if match:
                         # validation succeeded
-                        return value.lower()
+                        return {'email': value.lower()}
                      else:
-                        dispatcher.utter_message(template='Your email should be your work Email')
+                        dispatcher.utter_message(text='Your email should be your work Email')
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
-                        return None
+                        return {'email': None}
 
     def validate_emp_id(self,
                      value: Text,
@@ -115,12 +115,12 @@ class SignupForm(FormAction):
                      match = re.match("VW[0-9]{4}", value)
                      if match:
                         # validation succeeded
-                        return value
+                        return {'emp_id': value}
                      else:
-                        dispatcher.utter_message(template='Employee ID starts with VW and has 6 letters')
+                        dispatcher.utter_message(text='Employee ID starts with VW and has 6 letters')
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
-                        return None
+                        return {'emp_id': None}
 
     def validate_role(self,
                      value: Text,
@@ -129,32 +129,32 @@ class SignupForm(FormAction):
                      domain: Dict[Text, Any]) -> Optional[Text]:
 
                      if value.lower() in ["admin", "employee"]:
-                         return value.lower()
+                         return {'role': value.lower()}
                      else:
-                         dispatcher.utter_message(template='Role must be either admin or employee')
-                         return None
+                         dispatcher.utter_message(text='Role must be either admin or employee')
+                         return {'role': None}
     def submit(self,
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any],
             ) -> List[Dict]:
             if tracker.get_slot("is_authenticated"):
-                dispatcher.utter_message(template="You have already signed in")
+                dispatcher.utter_message(text="You have already signed in")
                 return[]
-            data = {
+            my_obj = {
                 "email": tracker.get_slot("email"),
                 "emp_id": tracker.get_slot("emp_id"),
                 "role": tracker.get_slot("role"),
                 "mobile": tracker.get_slot("mobile"),
                 "name": tracker.get_slot("name")
             }
-            response = requests.post("{}/employee/signup".format(backend_url), data)
+            response = requests.post("{}/employee/signup".format(backend_url), json=my_obj)
             body = response.json()
             if response.status_code == 409 or response.status_code == 401 or response.status_code == 500:
-                dispatcher.utter_message(template=body['message'])
+                dispatcher.utter_message(text=body['message'])
                 return[AllSlotsReset()]
             elif response.status_code == 200:
-                dispatcher.utter_message(template=body['message'])
+                dispatcher.utter_message(text=body['message'])
                 return[SlotSet("is_authenticated", True)]
 
 class SigninForm(FormAction):
@@ -195,12 +195,12 @@ class SigninForm(FormAction):
                      match = re.match("VW[0-9]{4}", value)
                      if match:
                         # validation succeeded
-                        return value
+                        return {'emp_id': value}
                      else:
-                        dispatcher.utter_message(template='Employee ID starts with VW and has 6 letters')
+                        dispatcher.utter_message(text='Employee ID starts with VW and has 6 letters')
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
-                        return None
+                        return {'emp_id': None}
 
     def validate_role(self,
                      value: Text,
@@ -209,29 +209,29 @@ class SigninForm(FormAction):
                      domain: Dict[Text, Any]) -> Optional[Text]:
 
                      if value.lower() in ["admin", "employee"]:
-                         return value.lower()
+                         return {'role': value.lower()}
                      else:
-                         dispatcher.utter_message(template='Role must be either admin or employee')
-                         return None
+                         dispatcher.utter_message(text='Role must be either admin or employee')
+                         return {'role': None}
     def submit(self,
             dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any],
             ) -> List[Dict]:
             if tracker.get_slot("is_authenticated"):
-                dispatcher.utter_message(template="You have already signed in")
+                dispatcher.utter_message(text="You have already signed in")
                 return[]
-            data = {
+            my_obj = {
                 "emp_id": tracker.get_slot("emp_id"),
                 "role": tracker.get_slot("role")
             }
-            response = requests.post("{}/employee/signin".format(backend_url), data)
+            response = requests.post("{}/employee/signin".format(backend_url), json=my_obj)
             body = response.json()
             if response.status_code == 409 or response.status_code == 401 or response.status_code == 500:
-                dispatcher.utter_message(template= body['message'])
+                dispatcher.utter_message(text = body['message'])
                 return [AllSlotsReset()]
             elif response.status_code == 200:
-                dispatcher.utter_message(template= body['message'])
+                dispatcher.utter_message(text= "You have successfully Logged in")
                 return [SlotSet("email", value=body["email"]),
                         SlotSet("mobile", value=body["mobile"]),
                         SlotSet("name", value=body["name"]),
@@ -250,7 +250,7 @@ class ActionExplainSignupForm(Action):
 
         if requested_slot not in SignupForm.required_slots(tracker):
             dispatcher.utter_message(
-                template="Sorry, I didn't get that. Please rephrase or answer the question "
+                text="Sorry, I didn't get that. Please rephrase or answer the question "
                 "above."
             )
             return []
@@ -269,7 +269,7 @@ class ActionExplainSigninForm(Action):
 
         if requested_slot not in SigninForm.required_slots(tracker):
             dispatcher.utter_message(
-                template="Sorry, I didn't get that. Please rephrase or answer the question "
+                text="Sorry, I didn't get that. Please rephrase or answer the question "
                 "above."
             )
             return []
@@ -290,8 +290,9 @@ class ActionSignout(Action):
         return "action_signout"
     def run(self, dispatcher, tracker, domain) -> List[EventType]:
         if not tracker.get_slot("is_authenticated"):
-            dispatcher.utter_message(template="You are not logged in")
+            dispatcher.utter_message(text="You are not logged in")
             return []
+        dispatcher.utter_message(text="Hope you will come back!!")
         return [AllSlotsReset()]
 
 class ActionDefaultAskAffirmation(Action):
@@ -408,3 +409,28 @@ class ActionDefaultFallback(Action):
         else:
             dispatcher.utter_message(template="utter_default")
             return [UserUtteranceReverted()]
+
+class ActionMarkAttendance(Action):
+    def name(self) -> Text:
+        return "action_mark_attendance"
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+        ) -> List[EventType]:
+        if not tracker.get_slot("is_authenticated"):
+            dispatcher.utter_message(text="To do this action You must be logged in")
+            return []
+        my_obj = {
+        "emp_id": tracker.get_slot("emp_id"),
+        "role": tracker.get_slot("role")
+        }
+        response = requests.post("{}/mark/attendance".format(backend_url), json=my_obj)
+        body = response.json()
+        if response.status_code == 409 or response.status_code == 500 or response.status_code == 401 or response.status_code == 400:
+            dispatcher.utter_message(text=body["message"])
+            return []
+        elif response.status_code == 200:
+            dispatcher.utter_message(text=body["message"])
+            return []

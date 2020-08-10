@@ -49,6 +49,18 @@
 - Please log me out.
 - Please sign me out.
 
+## intent: mark_attendance
+- Hi i want to register my attendace
+- Hi i want to register my presence
+- Hi I am here to mark my attendance
+- Hi I am here to mark my presence
+- I want to mark my attendance
+- I want to register my attendace
+- Hi, I am present today.
+- Hi I came to office today.
+- Hi mark my attendance
+- mark attendance
+
 ## intent: inform
 - Hi my name is [Venkt teja Ravi](name)
 - my name is [Kapish yadav Banda](name)
@@ -84,7 +96,6 @@
 - [Keith Donnell](name) PhD
 - [Linda Mchone](name)
 - [Lithuanian](language)
-- [McKinsey Germany](company)
 - [Michele Perry](name)
 - [Michelle Garcia](name)
 - [Michelle Vinion](name)

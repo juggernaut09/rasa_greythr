@@ -3,12 +3,14 @@
   - action_greet_user
 * signin
   - utter_can_do
+  - signin_form
   - form{"name": "signin_form"}
   - form{"name": null}
 
 ## just signin
 * signin
   - utter_can_do
+  - signin_form
   - form{"name": "signin_form"}
   - form{"name": null}
 
@@ -17,6 +19,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * canthelp
     - utter_canthelp
@@ -31,6 +34,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * canthelp
     - utter_canthelp
@@ -43,6 +47,7 @@
 ## just signin + canthelp + continue
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * canthelp
     - utter_canthelp
@@ -55,6 +60,7 @@
 ## just signin + canthelp + deny
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * canthelp
     - utter_canthelp
@@ -70,6 +76,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * explain
     - action_explain_signin_form
@@ -84,6 +91,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * explain
     - action_explain_signin_form
@@ -96,6 +104,7 @@
 ## just signin + explain + continue
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * explain
     - action_explain_signin_form
@@ -108,6 +117,7 @@
 ## just signin + explain + deny
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * explain
     - action_explain_signin_form
@@ -122,6 +132,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * out_of_scope
     - respond_out_of_scope
@@ -136,6 +147,7 @@
     - action_greet_user
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * out_of_scope
     - respond_out_of_scope
@@ -148,6 +160,7 @@
 ## just signin + out_of_scope + continue
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * out_of_scope
     - respond_out_of_scope
@@ -160,6 +173,7 @@
 ## just signin + out_of_scope + deny
   * signin
     - utter_can_do
+    - signin_form
     - form{"name": "signin_form"}
   * out_of_scope
     - respond_out_of_scope

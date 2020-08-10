@@ -521,7 +521,6 @@
 - this sucks
 - very bad
 - I do not need help installing
-- I don't wanna tell the name of my company
 - no stop
 - stop it, i do not care!!!
 - none of them
