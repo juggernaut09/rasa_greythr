@@ -79,3 +79,8 @@
 * mark_attendance
   - utter_can_do
   - action_mark_attendance
+
+## just analysis
+* analysis
+  - utter_can_do
+  - action_attendance_analysis

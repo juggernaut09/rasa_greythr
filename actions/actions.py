@@ -1,12 +1,3 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/core/actions/#custom-actions/
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
 from typing import Any, Text, Dict, List, Union, Optional
 
 from rasa_sdk import Action, Tracker
@@ -22,7 +13,7 @@ from rasa_sdk.events import (
     SlotSet
 )
 INTENT_DESCRIPTION_MAPPING_PATH = "actions/intent_description_mapping.csv"
-import re, requests
+import re, requests, json
 backend_url = "http://127.0.0.1:5000"
 
 class ActionGreetUser(Action):
@@ -32,8 +23,67 @@ class ActionGreetUser(Action):
         return "action_greet_user"
 
     def run(self, dispatcher, tracker, domain):
-        dispatcher.utter_message(template="utter_greet")
+        dispatcher.utter_message(template= "utter_greet")
         return [UserUtteranceReverted()]
+
+class ActionAttendanceAnalysis(Action):
+    def name(self):
+        return "action_attendance_analysis"
+    def run(self, dispatcher, tracker, domain):
+        if not tracker.get_slot('is_authenticated'):
+            buttons = []
+            buttons.append({
+                'title': 'signin',
+                'payload': '/signin'
+            })
+            buttons.append({
+                'title': 'signup',
+                'payload': '/signup'
+            })
+            dispatcher.utter_message(text = "Please login to do this action", buttons= buttons)
+            return []
+        if tracker.get_slot('role') != 'admin':
+            dispatcher.utter_message(text = "You must be an admin to do this action")
+            return []
+        grain = tracker.latest_message['entities'][0]['additional_info']['grain']
+        value = tracker.latest_message['entities'][0]['value']        
+        year = value.split('T')[0].split('-')[0]
+        month = value.split('T')[0].split('-')[1]
+        day = value.split('T')[0].split('-')[2]
+        if grain == 'year':
+            payload = {'year': year}
+            dispatcher.utter_message(text="getting analysis of:\nyear : {}".format(year)) 
+        elif grain == 'month':
+            payload = {
+                'month': month,
+                'year': year
+            }
+            dispatcher.utter_message(text="getting analysis of:\nyear : {}\n month : {}".format(year, month))
+        elif grain == 'day':
+            payload = {
+                'month': month,
+                'year': year,
+                'day': day
+            }
+            dispatcher.utter_message(text="getting analysis of:\nyear : {}\n month : {}\n day : {}\n".format(year, month, day))
+        response = requests.post(url="{}/{}/analysis?role={}&emp_id={}".format(backend_url, grain, tracker.get_slot("role"), tracker.get_slot("emp_id")), json=payload)
+        data = response.json()
+        if (response.status_code == 500) or (response.status_code == 400) or (response.status_code == 401):
+            dispatcher.utter_message(text = "message : {}".format(data['message']))
+            return []
+        dispatcher.utter_message(text = "To see the analysis please follow this link \n {}".format(data['url']))
+        buttons = []
+        buttons.append({
+                        'title': 'yes',
+                        'payload': '/affirm'
+                        })
+        buttons.append({
+                            'title': 'deny',
+                            'payload': '/deny'
+                        })
+        dispatcher.utter_message(text="Murthy is a lanja or not", buttons=buttons)
+        return []
+
 
 
 class SignupForm(FormAction):
@@ -75,64 +125,64 @@ class SignupForm(FormAction):
         }
 
     def validate_mobile(self,
-                     value: Text,
-                     dispatcher: CollectingDispatcher,
-                     tracker: Tracker,
-                     domain: Dict[Text, Any]) -> Optional[Text]:
+                    value: Text,
+                    dispatcher: CollectingDispatcher,
+                    tracker: Tracker,
+                    domain: Dict[Text, Any]) -> Optional[Text]:
 
-                     match = re.match("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", value)
-                     if match:
+                    match = re.match("^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$", value)
+                    if match:
                         # validation succeeded
                         return {'mobile': value}
-                     else:
+                    else:
                         dispatcher.utter_message(text="Please check your mobile number you have typed")
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
                         return {'mobile': None}
 
     def validate_email(self,
-                     value: Text,
-                     dispatcher: CollectingDispatcher,
-                     tracker: Tracker,
-                     domain: Dict[Text, Any]) -> Optional[Text]:
+                    value: Text,
+                    dispatcher: CollectingDispatcher,
+                    tracker: Tracker,
+                    domain: Dict[Text, Any]) -> Optional[Text]:
 
-                     match = re.match("[^@ \t\r\n]+@vitwit\.[^@ \t\r\n]+", value.lower())
-                     if match:
+                    match = re.match("[^@ \t\r\n]+@vitwit\.[^@ \t\r\n]+", value.lower())
+                    if match:
                         # validation succeeded
                         return {'email': value.lower()}
-                     else:
+                    else:
                         dispatcher.utter_message(text='Your email should be your work Email')
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
                         return {'email': None}
 
     def validate_emp_id(self,
-                     value: Text,
-                     dispatcher: CollectingDispatcher,
-                     tracker: Tracker,
-                     domain: Dict[Text, Any]) -> Optional[Text]:
+                    value: Text,
+                    dispatcher: CollectingDispatcher,
+                    tracker: Tracker,
+                    domain: Dict[Text, Any]) -> Optional[Text]:
 
-                     match = re.match("VW[0-9]{4}", value)
-                     if match:
+                    match = re.match("VW[0-9]{4}", value)
+                    if match:
                         # validation succeeded
                         return {'emp_id': value}
-                     else:
+                    else:
                         dispatcher.utter_message(text='Employee ID starts with VW and has 6 letters')
                         # validation failed, set this slot to None, meaning the
                         # user will be asked for the slot again
                         return {'emp_id': None}
 
     def validate_role(self,
-                     value: Text,
-                     dispatcher: CollectingDispatcher,
-                     tracker: Tracker,
-                     domain: Dict[Text, Any]) -> Optional[Text]:
+                    value: Text,
+                    dispatcher: CollectingDispatcher,
+                    tracker: Tracker,
+                    domain: Dict[Text, Any]) -> Optional[Text]:
 
-                     if value.lower() in ["admin", "employee"]:
-                         return {'role': value.lower()}
-                     else:
-                         dispatcher.utter_message(text='Role must be either admin or employee')
-                         return {'role': None}
+                    if value.lower() in ["admin", "employee"]:
+                        return {'role': value.lower()}
+                    else:
+                        dispatcher.utter_message(text='Role must be either admin or employee')
+                        return {'role': None}
     def submit(self,
             dispatcher: CollectingDispatcher,
             tracker: Tracker,

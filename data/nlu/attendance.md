@@ -1,0 +1,65 @@
+## intent: analysis
+- Get me present month analysis
+- Bring me present month analysis
+- show present month analysis
+- give me this month analysis
+- Bring me this month analysis
+- show this month analysis
+- this month analysis
+- give this month analysis
+- Get me present month's analysis
+- Bring me present month's analysis
+- show present month's analysis
+- give me this month's analysis
+- Bring me this month's analysis
+- show this month's analysis
+- this month's analysis
+- give this month's analysis
+- Get me present year analysis
+- Bring me present year analysis
+- show present year analysis
+- give me this year analysis
+- Bring me this year analysis
+- show this year analysis
+- this year analysis
+- give this year analysis
+- Get me present year's analysis
+- Bring me present year's analysis
+- show present year's analysis
+- give me this year's analysis
+- Bring me this year's analysis
+- show this year's analysis
+- this year's analysis
+- give this year's analysis
+- - Get me present today analysis
+- Bring me present today analysis
+- show present today analysis
+- give me this today analysis
+- Bring me this today analysis
+- show today analysis
+- today analysis
+- give this today analysis
+- Get me present today's analysis
+- Bring me present today's analysis
+- show present today's analysis
+- give me this today's analysis
+- Bring me this today's analysis
+- show this today's analysis
+- this today's analysis
+- give this today's analysis
+- Get me present today analysis
+- Bring me present today analysis
+- show present today analysis
+- give me this today analysis
+- Bring me this today analysis
+- show today analysis
+- today analysis
+- give this today analysis
+- Get me today's analysis
+- Bring me today's analysis
+- show today's analysis
+- give me today's analysis
+- Bring me today's analysis
+- show today's analysis
+- today's analysis
+- give today's analysis

@@ -18,6 +18,11 @@ pipeline:
     retrieval_intent: out_of_scope
     scale_loss: false
     epochs: 100
+  - name: "DucklingHTTPExtractor"
+    url: "http://localhost:8000"
+    dimensions: ["time"]
+    timezone: "India/Kolkata"
+    timeout : 3
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/

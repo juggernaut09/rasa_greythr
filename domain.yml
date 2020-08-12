@@ -21,12 +21,14 @@ intents:
 - restart
 - trigger_rephrase
 - mark_attendance
+- analysis
 entities:
 - name
 - email
 - mobile
 - emp_id
 - role
+- time
 - product
 - language
 slots:
@@ -146,6 +148,7 @@ actions:
 - action_explain_signup_form
 - action_explain_signin_form
 - action_mark_attendance
+- action_attendance_analysis
 - respond_out_of_scope
 forms:
 - signup_form
