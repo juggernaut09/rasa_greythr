@@ -1,3 +1,7 @@
 .venv
 /venv
 *.db
+.models
+/models
+*.pyc
+/*.pyc

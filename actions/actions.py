@@ -10,7 +10,8 @@ from rasa_sdk.events import (
     FollowupAction,
     AllSlotsReset,
     BotUttered,
-    SlotSet
+    SlotSet,
+    SessionStarted
 )
 INTENT_DESCRIPTION_MAPPING_PATH = "actions/intent_description_mapping.csv"
 import re, requests, json
@@ -69,19 +70,9 @@ class ActionAttendanceAnalysis(Action):
         response = requests.post(url="{}/{}/analysis?role={}&emp_id={}".format(backend_url, grain, tracker.get_slot("role"), tracker.get_slot("emp_id")), json=payload)
         data = response.json()
         if (response.status_code == 500) or (response.status_code == 400) or (response.status_code == 401):
-            dispatcher.utter_message(text = "message : {}".format(data['message']))
+            dispatcher.utter_message(text = data['message'])
             return []
         dispatcher.utter_message(text = "To see the analysis please follow this link \n {}".format(data['url']))
-        buttons = []
-        buttons.append({
-                        'title': 'yes',
-                        'payload': '/affirm'
-                        })
-        buttons.append({
-                            'title': 'deny',
-                            'payload': '/deny'
-                        })
-        dispatcher.utter_message(text="Murthy is a lanja or not", buttons=buttons)
         return []
 
 
@@ -343,7 +334,7 @@ class ActionSignout(Action):
             dispatcher.utter_message(text="You are not logged in")
             return []
         dispatcher.utter_message(text="Hope you will come back!!")
-        return [AllSlotsReset()]
+        return [AllSlotsReset(), SessionStarted(), FollowupAction(name="action_restart")]
 
 class ActionDefaultAskAffirmation(Action):
     """Asks for an affirmation of the intent if NLU threshold is not met."""
